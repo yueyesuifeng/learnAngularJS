@@ -14,9 +14,13 @@
 			var myModule=angular.module('MyModule',[]);
 			myModule.directive("hello",function($templateCache){
 				return {
+					scope:false,
 					restrict:'E',
 					transclude:true,//使用transclude实现指令之间的嵌套
-					template:"<div>Hello everyone!<div ng-transclude></div></div>"
+					template:"<div>Hello everyone!<div ng-transclude></div></div>",
+					controller:function($scope){
+						console.log($scope.$id);
+					}
 				}
 			});
 		</script>

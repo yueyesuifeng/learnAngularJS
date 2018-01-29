@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="MyModule">
+<head>
+	<meta charset="utf-8">
+	<script src="jquery/jquery.min.js"></script>
+	<script src="bootstrap/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div ng-controller="templateCtrl">
+		<table class="table table-hover" ng-cloak="">
+			<thead>
+				<tr>
+					<th ng-click="sortBy('name')">Policy Name
+						<tablesorticon tablepropertyname="propertyName" reverse="reverse" colname="{{'name'}}"></tablesorticon>
+					</th>
+					<th ng-click="sortBy('desc')">Description
+						<tablesorticon tablepropertyname="propertyName" reverse="reverse" colname="{{'desc'}}"></tablesorticon>
+					</th>
+					<th ng-click="sortBy('updateTime')">Last Updated
+						<tablesorticon tablepropertyname="propertyName" reverse="reverse" colname="{{'updateTime'}}"></tablesorticon>
+					</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="np in networkPolices | orderBy:propertyName:reverse track by $index">
+				<td>{{np.name}}</td>
+				<td>{{np.desc}}</td>
+				<td>{{np.updateTime}}</td>
+			</tr>
+		</table>
+	</div>
+	
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script>
+		var myModule=angular.module('MyModule',[]);
+		
+		myModule.controller('templateCtrl', ['$scope',function($scope) {
+			$scope.propertyName = 'updateTime';
+			$scope.reverse = true;
+			$scope.sortBy = function(propertyName) {
+				$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+				$scope.propertyName = propertyName;
+			};
+			$scope.networkPolices = [
+			{ "id": "1", "policyType": { "wireless": true, "lan": true }, "name": "wang_test", "ssid_num": 1, "template_num": 2, "desc": "good a", "updateTime": "2018-1-1" },
+			{ "id": "2", "policyType": { "wireless": true, "lan": true }, "name": "cisco", "ssid_num": 2, "template_num": 3, "desc": "good b", "updateTime": "2018-1-2" },
+			{ "id": "3", "policyType": { "wireless": true, "lan": true }, "name": "apple", "ssid_num": 4, "template_num": 2, "desc": "good c", "updateTime": "2018-1-3" },
+			{ "id": "4", "policyType": { "wireless": true, "lan": true }, "name": "donghua", "ssid_num": 5, "template_num": 3, "desc": "good d", "updateTime": "2018-1-4" }
+			];
+		}]);
+		myModule.directive('tablesorticon', function() {
+			return {
+				restrict: 'E',
+				scope: {
+					tablepropertyname: '=',
+					reverse:'=',
+					colname:'@'
+				},
+				template: "<span class='glyphicon glyphicon-sort' ng-if='tablepropertyname!=colname'></span>"
+				+"<span class='glyphicon glyphicon-sort-by-attributes' ng-if='!reverse&&tablepropertyname==colname'></span>"
+				+"<span class='glyphicon glyphicon-sort-by-attributes-alt' ng-if='reverse&&tablepropertyname==colname'></span>",
+			}
+		})
+		myModule.directive("hello",function($templateCache){
+			return {
+				scope:false,
+				restrict:'E',
+					transclude:true,//使用transclude实现指令之间的嵌套
+					template:"<div>Hello everyone!<div ng-transclude></div></div>",
+					controller:function($scope){
+						console.log($scope.$id);
+					}
+				}
+			});
+		</script>
+	</body>
+
+	</html>
