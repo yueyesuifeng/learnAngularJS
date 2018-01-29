@@ -53,13 +53,26 @@
 			return {
 				restrict: 'E',
 				scope: {
-					tablepropertyname: '=',
-					reverse:'=',
-					colname:'@'
+					tablepropertyname: '=',//这个字段是双向绑定的
+					reverse:'=',//这个是单项绑定的
+					colname:'@'//单项绑定，获取到的数据是String类型的，可以传递一个字符串给一个指令
 				},
 				template: "<span class='glyphicon glyphicon-sort' ng-if='tablepropertyname!=colname'></span>"
 				+"<span class='glyphicon glyphicon-sort-by-attributes' ng-if='!reverse&&tablepropertyname==colname'></span>"
 				+"<span class='glyphicon glyphicon-sort-by-attributes-alt' ng-if='reverse&&tablepropertyname==colname'></span>",
+				controller:function($scope){
+					this.sortBy = function(colname) {
+						$scope.reverse = ($scope.propertyName === colname) ? !$scope.reverse : false;
+				        $scope.propertyName = colname;
+					};
+				},
+				controllerAs:"tableSortCtrl",//给上面的控制器起别名
+				link:function(scope,ele,atrrs,tableSortCtrl){
+					console.log(ele.parents("th")[0]);//有几条指令就执行几次
+					ele.parents("th").on('click', function() {//给父级th元素都加上一个click的函数
+						tableSortCtrl.sortBy(scope.colname)
+					});
+				}
 			}
 		})
 		myModule.directive("hello",function($templateCache){
