@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<script type="text/javascript">
+    //闭包是指这样的作用域，它包含有一个函数，这个函数可以调用被这个作用域所*封闭*的变量、函数或者闭包等内容。通常我们通过闭包所对应的函数来获得对闭包的访问。
+    function init() {
+    	let name = "Mozilla";// name 是一个被init创建的局部变量 
+ 		function displayName() {// displayName() 是一个内部函数
+  		alert(name);  //  一个闭包使用在父函数中声明的变量
+  		} 
+        displayName();
+}
+init();
+</script>
+<body>
+</body>
+</html>

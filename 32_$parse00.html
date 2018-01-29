@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div ng-controller="testCtrl">
+	{{test}}
+	</div>	
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="angular-1.5.8/angular-message.min.js"></script> -->
+	<script>
+	//理解angular中的$parse服务,首先要明确什么是上下文
+	//
+	//控制器就相当于一个上下文的容器，真正的上下文其实是$scope,当页面绑定test，如果申明了控制器，当前上下文就是控制器里面的$scope，ng会去找一下你这个控制器的上下文$scope有没有test，如果有，他当然就显示出来了，但是你不申明控制器的时候呢？他的上下文容器就是ng-app了，那么他真正的上下文就是$rootScope，这个时候他就会寻找$rootScope有没有test。
+	//
+	//第2，一句话描述什么是$parse?
+	//
+	//$parse服务其实就是一种解析表达式的功能! 就像ng-model=“test”,你在html中写这个东西谁知道你ng-model=“test”中，其实你想绑定的是当前控制器(上下文容器)中scope(上下文)中的test里面的值，ng就是通过$parse服务去帮助你解析这个表达式的，所以在调用$parse服务的时候你需要传递上下文对象,让ng知道你是要去哪里的scope(上下文)去找你这个test
+		var app=angular.module('myApp', [ ]);
+		app.controller('testCtrl',function($scope,$parse){
+			$scope.test="1111";
+			var getter = $parse('user.name');
+			var setter = getter.assign;
+			var context = {user:{name:'angular'}};
+			var locals = {user:{name:'local'}};
+			console.log(getter(context));//getter(context)实际上就是 $parse('user.name')(context)
+			//getter(context)执行步骤
+			// 1.获取当前的表达式user.name
+			// 2.获取当前的上下文对象{user:{name:'angular'}}
+			// 3.在上下问对象中寻找表达式，最终获得“angular“这个字符串
+			setter(context, 'newValue');//实际上就是 $parse('user.name').assign(context, 'newValue')
+			// 1.获取当前的表达式user.name
+			// 2.获取当前的上下文对象{user:{name:'angular'}}
+			// 3.改变表达式中的值，将上下文对象编程{user:{name:'newValue'}}
+			console.log(context.user.name);
+			console.log(getter(context, locals));//getter(context, locals)实际上就是$parse('user.name')(context, locals)
+			//在getter的方法中我们不仅可以选择第一个上下文，但是如果我们传递了第二个参数，那么第一个上下文就会被第二个上下文覆盖，注意是覆盖.
+			// 1.获取当前的表达式user.name
+			// 2.获取当前的上下文对象{user:{name:'angular'}}
+			// 3.覆盖当前的上下文{user:{name:'local'}}
+			// 4.获取解析之后表达式的值
+		});
+	</script>
+</body>
+
+</html>

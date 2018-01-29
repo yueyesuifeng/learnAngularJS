@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<script type="text/javascript">
+//闭包是一种特殊的现象。它由两部分组成：函数，以及创建该函数的环境。环境由闭包创建时，在作用
+//域中的任何局部变量组成。
+	function makeFunc() {
+		var name = "Mozilla";
+		function displayName() {
+			alert(name);
+		}
+		return displayName;
+	}
+
+	var myFunc = makeFunc();//myFunc是一个闭包
+	myFunc();
+</script>
+<body>
+</body>
+</html>

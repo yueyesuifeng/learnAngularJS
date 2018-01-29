@@ -1,0 +1,90 @@
+/*
+* @Author: hewang2
+* @Date:   2017-05-25 09:42:29
+* @Last Modified by:   hewang2
+* @Last Modified time: 2017-05-25 09:42:40
+*/
+.org_user {
+    table tbody tr:hover {
+        background: #fff;
+    }
+    div.orgUser {
+        display: inline-block;
+        padding: 10px;
+        width: 100%;
+    }
+
+    button.export {
+        float: right;
+    }
+    .orgUser > table {
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+        font-size: 12px;
+        color: #444;
+        border: 1px #ddd solid;
+        margin-top: 10px;
+    }
+
+    .orgUser > table thead tr {
+        background: #eee;
+    }
+    .orgUser > table thead tr th {
+        text-align: center;
+    }
+    .orgUser > table thead tr th:hover {
+        background: #ddd;
+    }
+    .orgUser > table tbody tr:hover {
+        background: #ddd;
+    }
+
+    .orgUser .orgUser-even {
+        background: #f2f2f2;
+    }
+
+    .orgUser .orgUser-odd {
+        background: #f9f9f9;
+    }
+    .sortorder:after {
+        content: '\25b2'; // BLACK UP-POINTING TRIANGLE
+    }
+    .sortorder.reverse:after {
+        content: '\25bc'; // BLACK DOWN-POINTING TRIANGLE
+    }
+
+    .dialog#popupContainer {
+        position: relative;
+        display: inline !import;
+    }
+
+    input.siteInput {
+        width: 194px;
+        height: 33px;
+        border: 1px #ddd solid;
+        border-radius: 6px;
+        text-align: center;
+    }
+    .orgSite {
+        border: 1px #eee solid;
+        position: absolute;
+        left: 69px;
+        top: 32px;
+        width: 190px;
+        margin: 10px auto 0;
+        background: #eee;
+        z-index: 100;
+        ul {
+            li {
+                text-align: left;
+            }
+            li:hover {
+                background: dodgerblue;
+                color: #fff;
+            }
+        }
+
+    }
+
+}

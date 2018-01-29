@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div ng-controller="testCtrl">
+		<div ng-repeat="(key,fanConData) in testMultipleData" style="width:150px;height:200px;">
+			{{key}}
+			<div ng-repeat="con in fanConData" style="width:500px;height:20px;">{{con}}</div>
+		</div>
+	</div>	
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="angular-1.5.8/angular-message.min.js"></script> -->
+	<script>
+		var app=angular.module('myApp', [ ]);
+		app.controller('testCtrl',function($scope){
+			$scope.testMultipleData = {
+				"FAN1": [
+				{conStatus:"no data",percent:16.666,description:"no data"},
+				{conStatus:"ok",percent:16.666,description:"ok"},
+				{conStatus:"faulty",percent:16.666,description:"faulty"},
+				{conStatus:"not_powered",percent:16.666,description:"not_powered"},
+				{conStatus:"not_present",percent:16.666,description:"not_present"},
+				{ conStatus: "invalid", percent: 16.666, description: "invalid" }
+				],
+				"FAN2": [
+				{conStatus:"no data",percent:16.666,description:"no data"},
+				{conStatus:"ok",percent:16.666,description:"ok"},
+				{conStatus:"faulty",percent:16.666,description:"faulty"},
+				{conStatus:"not_powered",percent:16.666,description:"not_powered"},
+				{conStatus:"not_present",percent:16.666,description:"not_present"},
+				{ conStatus: "invalid", percent: 16.666, description: "invalid" }
+				],
+				"FAN3": [
+				{conStatus:"no data",percent:16.666,description:"no data"},
+				{conStatus:"ok",percent:16.666,description:"ok"},
+				{conStatus:"faulty",percent:16.666,description:"faulty"},
+				{conStatus:"not_powered",percent:16.666,description:"not_powered"},
+				{conStatus:"not_present",percent:16.666,description:"not_present"},
+				{ conStatus: "invalid", percent: 16.666, description: "invalid" }
+				]
+			}
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!--references link:https://ui-router.github.io/ng1/tutorial/helloworld-->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<style>.active { color: red; font-weight: bold; }</style>
+</head>
+
+<body ng-app="helloworld">
+	<a ui-sref="hello" ui-sref-active="active">Hello</a>
+	<a ui-sref="about" ui-sref-active="active">About</a>
+
+	<ui-view></ui-view>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script src="angular-ui-router/release/angular-ui-router.js"></script>
+	<script>
+		var myApp = angular.module('helloworld', ['ui.router']);
+		//A state is the basic building block for UI-Router applications. This javascript object is a simple state definition.
+		myApp.config(function($stateProvider) {
+		  var helloState = {
+		    name: 'hello',
+		    url: '/hello',
+		    template: '<h3>hello world!</h3>'
+		  }
+
+		  var aboutState = {
+		    name: 'about',
+		    url: '/about',
+		    template: '<h3>Its the UI-Router hello world app!</h3>'
+		  }
+
+		  $stateProvider.state(helloState);
+		  $stateProvider.state(aboutState);
+		});
+	</script>
+</body>
+
+</html>

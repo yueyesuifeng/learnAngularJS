@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+<head>
+	<meta charset="utf-8">
+</head>
+<body>
+	<body ng-controller="MainCtrl">
+		<pre>{{a | json}}</pre>
+		<pre>{{b | json}}</pre>
+	</body>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script>
+		var app = angular.module('plunker', []);
+		app.factory('json',function($q,$http){		
+			return function(files){			
+				var promises = files.map( function(file){					
+					var deffered  = $q.defer();
+					$http({
+						url : file,
+						method: 'GET'
+					}).
+					success(function(data){
+						deffered.resolve(data);
+						console.log(data)
+						alert("dddddd")
+					}).
+					error(function(error){
+						deffered.reject();
+					});				
+					return deffered.promise;
+				})				
+				return $q.all(promises);
+			}
+			
+		});
+
+		app.controller('MainCtrl', function($scope,json) {
+			$scope.name = 'World';
+			
+			json(['a.json','b.json']).then(function(datas){
+				alert("dffgdd")
+				$scope.a = datas[0]
+				$scope.b = datas[1]
+			})
+
+		});
+
+	</script>
+
+	</html>

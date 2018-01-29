@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div ng-controller="testCtrl" ng-bind="test"> 
+		</div>	
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<!-- <script src="angular-1.5.8/angular-message.min.js"></script> -->
+		<script>
+			angular.module('myApp', [ ])
+			.factory('myFactory',function(){
+				var service={};
+				service.name="张三";
+				var age;
+				service.setAge=function(newAge){
+					age=newAge;
+				}
+				service.getAge=function(){
+					return age;
+				}
+				return service;
+			})
+			.controller('testCtrl',function($scope,myFactory){
+				console.log(myFactory);
+				myFactory.setAge(20);
+				$scope.r=myFactory.getAge();
+				console.log(myFactory.name,$scope.r);
+			})
+		</script>
+	</body>
+
+	</html>

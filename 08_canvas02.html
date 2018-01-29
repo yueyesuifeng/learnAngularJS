@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<body>
+	<canvas id="myCanvas" width="300" height="150" style="border:1px solid #d3d3d3;">
+		Your browser does not support the HTML5 canvas tag.
+	</canvas>
+
+	<script>
+
+		var c=document.getElementById("myCanvas");
+		var ctx=c.getContext("2d");
+		ctx.beginPath();//开始规划路径
+		ctx.moveTo(20,20);//要画到
+		ctx.lineTo(20,100);//要画到
+		ctx.lineTo(70,100);//要画到
+		ctx.closePath();//有闭合路径的作用
+		ctx.stroke();//画
+		ctx.fillStyle="red";//填充颜色
+		ctx.fill();
+	</script>
+</body>
+</html>

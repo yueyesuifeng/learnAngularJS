@@ -1,0 +1,81 @@
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#overview" 
+									   href="#deviceHealth">
+										 <span class="glyphicon glyphicon-chevron-up collapseIcon"></span>
+									</a>
+									&nbsp;Device Health
+									<div class="btn-group" role="group">
+										<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							      			<i>{{defaultTimeModel}}</i>
+							      			<span class="caret"></span>
+							    		</button>
+						                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+						                    <li ng-repeat ="timeModel in timeList">
+						                        <a ng-click="selectedDeviceTime(timeModel)">{{timeModel}}</a>
+						                    </li>
+						                </ul>
+									</div>
+									
+								</h4>
+							</div>
+							<div id="deviceHealth" class="panel-collapse collapse">
+								<div class="panel-body" id="deviceTemperatureParent">
+									<div class="connectivity center-block">
+										<p><strong>Fan</strong></p>
+										<div class="progress">
+											<div ng-repeat="con in fanConData">
+												<!--1 no data-->
+												<div ng-if="con.conStatus=='no data'" class="progress-bar progress_bar_nodata" role="progressbar" style="width:{{con.percent}}%;" title="{{con.description }}">
+												</div>
+												<!--2 ok-->
+												<div ng-if="con.conStatus=='ok'" class="progress-bar progress_bar_connect" style="width:{{con.percent}}%;height: 20px;" title="{{con.description}}">
+													<span class="sr-only">
+														{{con.percent}}
+													</span>
+												</div>
+												<!--3 faulty-->
+												<div ng-if="con.conStatus=='faulty'" class="progress-bar progress_bar_noconnect" style="width:{{con.percent}}%;height: 20px;" title="{{con.description}}">
+													<span class="sr-only">
+														{{con.percent}}
+													</span>
+												</div>
+												<!--4 not_powered-->
+												<div ng-if="con.conStatus=='not_powered'" class="progress-bar" style="width:{{con.percent}}%;height: 20px;background-color:#FF5722;" title="{{con.description}}">
+													<span class="sr-only">
+														{{con.percent}}
+													</span>
+												</div>
+												<!--5 not_present-->
+												<div ng-if="con.conStatus=='not_present'" class="progress-bar" style="width:{{con.percent}}%;height: 20px;background-color:#FFC107;" title="{{con.description}}">
+													<span class="sr-only">
+														{{con.percent}}
+													</span>
+												</div>
+												<!--6 invalid-->
+												<div ng-if="con.conStatus=='invalid'" class="progress-bar" style="width:{{con.percent}}%;height: 20px;background-color:#607D8B;" title="{{con.description}}">
+													<span class="sr-only">
+														{{con.percent}}
+													</span>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<hr />
+									<div class="col-lg-6" style="padding: 0;">
+										<p style="margin: 0 auto;"><strong>Temperature</strong></p>
+										<div id="deviceTemperature" style="height:230px;margin: -10px auto;" ng-if="!noData3"></div>
+										<h4 ng-if="noData3" class="text-center" style="width:100%;height:50px;line-height:50px;position:relative;">No enough data to show</h4>
+
+									</div>
+									<div class="col-lg-6" style="padding: 0;">
+										<p style="margin: 0 auto;"><strong>Power</strong>(to be supported)</p>
+										<div id="devicePower" style="height:230px;margin: -12px auto;" ng-if="!noData4">Device Power</div>
+										<h4 ng-if="noData4" class="text-center" style="width:100%;height:50px;line-height:50px;position:relative;">No enough data to show</h4>
+									</div>
+
+								</div>
+							</div>
+						</div>

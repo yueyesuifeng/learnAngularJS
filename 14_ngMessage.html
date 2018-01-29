@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div ng-controller="testCtrl">
+		<form name="myForm">
+			<label>
+				Username:
+				<input type="text" ng-model="field" name="username" required maxlength="15" pattern="\w*"><!--这里不用加两个左斜线-->
+			</label>
+			<div ng-messages="myForm.username.$error" role="alert">
+				<div ng-message="required">This is required</div>
+				<div ng-message="maxlength">This field can be at most 15 characters long.</div>
+				<div ng-message="maxlength">This field can be at most 15 characters long.</div>
+				<div ng-message="pattern">pattern</div>
+			</div>
+			<label>
+				Enter text:
+				<input type="email" ng-model="field" name="myField" required maxlength="15" />
+			</label>
+			<div ng-messages="myForm.myField.$error" role="alert">
+				<div ng-message="required">This is required</div>
+				<div ng-message="email">Invalid email</div>
+				<div ng-message="maxlength">This field can be at most 15 characters long.</div>
+			</div>
+		</form>
+	</div>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script src="angular-1.5.8/angular-messages.js"></script>
+	<script>
+		var app=angular.module('myApp', ['ngMessages']);
+		app.controller('testCtrl',function($scope){
+		});
+	</script>
+</body>
+
+</html>

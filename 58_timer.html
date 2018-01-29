@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div ng-controller="testCtrl">
+		{{test}} <br>
+		<button ng-click="testCallOtherFunction()">TestCallOtherFunction</button>
+	</div>	
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="angular-1.5.8/angular-message.min.js"></script> -->
+	<script>
+		var app=angular.module('myApp', [ ]);
+		app.controller('testCtrl',function($scope){
+					$scope.test=1;
+					setInterval(function(){
+						$scope.$apply(function(){
+							$scope.test++;
+						})
+						// console.log($scope.test)
+					}, 100)
+			});
+</script>
+</body>
+
+</html>

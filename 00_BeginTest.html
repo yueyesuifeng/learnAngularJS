@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div ng-controller="testCtrl">
+		{{test}} <br>
+		<button ng-click="testCallOtherFunction()">TestCallOtherFunction</button>
+	</div>	
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="angular-1.5.8/angular-message.min.js"></script> -->
+	<script>
+		var app=angular.module('myApp', [ ]);
+		app.controller('testCtrl',function($scope){
+			$scope.testCallOtherFunction=function(){
+				console.log('ffff');
+				$scope.showScript();//我们可以这样认为scope是一个树根，所有的变量和函数按顺序挂接在这颗树根上，点击调用函数的时候，就去查找这颗树上有没有，这个函数叶子或者变量
+			}
+			// $scope.showScript();//这里执行不成功，说明并没有进行提升，挂在scope下的函数和变量，不是全局的，是局部的。
+			$scope.showScript=function(){
+				console.log('</scr'+'ipt>')
+			}
+			$scope.showScript();//执行成功
+			console.log($scope.testValue);//undefined
+			$scope.testValue=4;
+			console.log($scope.testValue);//4
+			var objs =[{a:1},{a:2}];
+			angular.forEach(objs, function(data,index,array){
+			//data等价于array[index]
+			console.log(data.a+'='+array[index].a);
+			});
+			// objs：需要遍历的集合
+			// data:遍历时当前的数据
+			// index:遍历时当前索引
+			// array:需要遍历的集合，每次遍历时都会把objs原样的传一次。
+			});
+</script>
+</body>
+
+</html>

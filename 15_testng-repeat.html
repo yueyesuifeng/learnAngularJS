@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div ng-controller="testCtrl">
+			<table cellpadding="0" ng-cloak="">
+		<thead>
+			<tr>
+				<th><input type="checkbox"/></th>
+				<th>Serial Number</th>
+				<th>Model</th>
+				<th>MAC address</th>
+				<th>Organization</th>
+				<th>Site</th>
+				<th>Hostname</th>
+				<th>Firmware version</th>
+				<th>Status</th>
+				<th>Claimed on</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="inv in invs">
+			<!--以下这种方法可以访问嵌套的json-->
+				<td><input type="checkbox"/></td>
+				<td ng-bind="inv.spec.sn"></td>
+				<td ng-bind="inv.spec.pid"></td>
+				<td ng-bind="inv.spec.macaddr"></td>
+				<td ng-bind="inv.spec.org"></td>
+				<td ng-bind="inv.spec.site"></td>
+				<td ng-bind="inv.spec.hostname"></td>
+				<td ng-bind="inv.baic.firmvers"></td>
+				<td ng-bind="inv.baic.status"></td>
+				<td ng-bind="inv.baic.clmdon"></td>
+			</tr>
+		</tbody>
+	</table>
+		</div>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var app=angular.module('myApp', []);
+			app.controller('testCtrl',function($scope){
+				$scope.testData="test";
+				$scope.getInvs = [
+				{ sn: "E2GD-Q2V9-8939", pid: "111111112", macaddr: "00:28:0a:79:a4:76", org: "", site: "Shanghai", hostname: "cisco-pc", firmvers: "0.0.1", status: "unclaimed", clmdon: "1494469695" },
+				{ sn: "Q2GD-Q2V9-8939", pid: "121111113", macaddr: "00:48:0a:79:a4:76", org: "cisco", site: "Beijing", hostname: "xiaoming-pc", firmvers: "0.0.2", status: "connected", clmdon: "1494469695" },
+			];
+			$scope.invs=[
+			{"spec":{
+					"sn": "E2GD-Q2V9-8939", pid: "111111112", macaddr: "00:28:0a:79:a4:76", org: "", site: "Shanghai", hostname: "cisco-pc"
+			},
+			"baic":{
+				firmvers: "0.0.1", status: "unclaimed", clmdon: "1494469695"
+			}
+		}
+			];
+			});
+		</script>
+	</body>
+
+$scope.sitePris=[];
+			
+			$scope.newSitePri={sitePriId:0,site:"Select a Site",privilege:"admin",ifShow:false};
+			$scope.addOneSitePri=function(){
+				$scope.newSitePri.sitePriId=$scope.sitePris.length+1;
+				$scope.sitePris.push($scope.newSitePri);
+				$scope.newSitePri={sitePriId:0,site:"Select a Site",privilege:"admin"};//this is must
+			}
+			
+
+			
+			$scope.orgSites=[
+			{id:"1",name:"Shanghai"},
+			{id:"2",name:"Beijing"},
+			{id:"3",name:"Hangzhou"},
+			{id:"4",name:"Suzhou"},
+			{id:"3",name:"Songjing"},
+			{id:"4",name:"Caohejing"}
+			];
+			
+			$scope.selectSite=$scope.orgSites[1].name;
+			
+			$scope.isClicked = function(siteId,name) {
+				angular.forEach($scope.orgSites, function(value) {
+					if(value.name==name){
+						$scope.siteTempName=value.name;
+					}	
+				});
+				
+				angular.forEach($scope.sitePris, function(value) {
+					if(value.sitePriId==siteId){
+						value.site=$scope.siteTempName;
+						value.ifShow=false;
+					}	
+				});
+			}
+			
+			$scope.isDeleteSitePri=function(key,){
+				$scope.sitePris.splice(key,1);
+				var initSiteId=0;
+				angular.forEach($scope.sitePris,function(value){
+					value.sitePriId=initSiteId+1;
+					initSiteId++;
+				});
+				console.log($scope.sitePris);
+			}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+
+</head>
+<body ng-controller="myController">
+	<input ng-model="search" type="text" ng-keyup="isChange()">
+	<table style="border:1px red solid;">
+		<tr ng-repeat="user in users | filterBy: ['id','user.first_name']: search as afterSearch">
+			<td ng-bind="user.id"></td>
+			<td ng-bind="user.user.first_name"></td>
+			<td ng-bind="user.user.last_name"></td>
+		</tr>
+	</table>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script src="angular-filter.min.js"></script>
+	<script>
+		var myApp = angular.module('myApp', ['angular.filter']);
+		myApp.controller('myController',function($scope){
+			$scope.test="test";
+			$scope.users = [
+			{ id: 1, user: { first_name: 'R/ob', last_name: 'John',  mobile: 4444} },
+			{ id: 2, user: { first_name: 'John', last_name: 'Wayne',  mobile: 3333 } },
+			{ id: 3, user: { first_name: 'Rob', last_name: 'Johansson',  mobile: 2222 } },
+			{ id: 4, user: { first_name: 'Mike', last_name: 'Terry',  mobile: 1111 } }
+			];
+			$scope.afterSearch="";
+			$scope.isChange=function(){
+				console.log($scope.afterSearch);
+			}
+		});
+		
+	</script>
+</body>
+</html>

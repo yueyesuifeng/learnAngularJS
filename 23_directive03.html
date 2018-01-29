@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="MyModule">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+			<hello>
+				<div>这里是指令内部的内容。</div>
+			</hello>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var myModule=angular.module('MyModule',[]);
+			myModule.directive("hello",function($templateCache){
+				return {
+					restrict:'E',
+					transclude:true,//使用transclude实现指令之间的嵌套
+					template:"<div>Hello everyone!<div ng-transclude></div></div>"
+				}
+			});
+		</script>
+	</body>
+
+</html>

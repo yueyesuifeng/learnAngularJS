@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="MyModule">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div>
+		<span hello></span>
+		</div>	
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var myModule=angular.module('MyModule',[]);
+			//注射器加载完成所有模块时，此方法执行一次
+			myModule.run(function($templateCache){
+				$templateCache.put("hello.html","<div>Hello everyone!!!!!</div>");
+			});
+			myModule.directive("hello",function($templateCache){
+				return {
+					restrict:'A',
+					link:function(scope,element,attr){
+						attr.date=true;
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

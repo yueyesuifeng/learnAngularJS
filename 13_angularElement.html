@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div ng-controller="testCtrl">
+			<div id="box">
+				<span class="box1">box1</span>
+				<span class="box2">box2</span>
+			</div>
+		</div>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var app=angular.module('myApp', []);
+			app.controller('testCtrl',function($scope){
+				$scope.testData="test";
+				//angular自带的轻量级jqLite，方法有限，建议引入稳定版的jQuery，angular检测到开发者引入的jQuery后，
+				//angular.element则是jQuery的别名，可以使用jQuery的所有方法
+				var ele=angular.element("#box");
+				console.log(ele);
+			});
+			//创建正则表达式的两种方法
+			//1、采用new运算符
+			var box1=new RegExp('box');//第一个参数是字符串
+			var box2=new RegExp('box','ig');//第二个参数是可选模式修饰符
+			//i指忽略大小写，g指全局匹配，m指多行匹配
+			//2采用字面量
+			var box3 =/box/;//直接用两个反斜杠
+			var box4 =/box/ig;//在第二个斜杠后面加上模式修饰符
+
+			//两个方法test()和exec()方法
+			//使用new运算符的test的方法
+			// var pattern=new RegExp('box','i');
+			// var str='This is a Box!';
+			// console.log(pattern.test(str));
+			
+			//使用字面量方式的test方法
+			// var pattern=/box/i;
+			// var str='This is a Box!';
+			// console.log(pattern.test(str));
+			// 使用一条语句实现正则匹配
+			// console.log(/box/i.test('This is a Box!'))
+			// 使用exec返回匹配数组
+			// var pattern=/box/i;
+			// var str='This is Box!';
+			// console.log(pattern.exec(str));
+			
+			//使用元字符
+
+			/*使用点元字符*/
+			// var pattern = /g..gle/; //匹配任意一个字符，一个点匹配一个字符
+			// var str = 'google';
+			// alert(pattern.test(str));
+			/*重复匹配*/
+			// var pattern = /g*gle/; //*可以匹配0 个一个或多个
+			// var str = 'google'; //*,?,+,{n,m}
+			// alert(pattern.test(str));
+			// /*使用字符类匹配*/
+			// var pattern = /g[a-zA-Z_]*gle/; //任意个a-z,A-Z,下划线 中的字符
+			// var str = 'google';
+			// alert(pattern.test(str));
+			// var pattern = /g[^0-9]*gle/; //[^0-9]*表示任意个非0-9 的字符,加*指任意多个
+			// var str = 'google';
+			// console.log(pattern.test(str));
+			// var pattern = /[a-z][A-Z]+/; //[A-Z]+表示A-Z 一次或多次
+			// var str = 'gOOGLE';
+			// console.log(pattern.test(str));
+			//使用元符号匹配
+			// var pattern=/google\d*/;   //\d*匹配任意多个数字
+			// var str='google4444';
+			// console.log(pattern.test(str));
+
+			// var pattern=/\D{7,}/;   //\D{7,}匹配至少7个非数字,要是连续的
+			// var str='gooogle8';
+			// console.log(pattern.test(str));
+
+			//使用锚元字符匹配
+			// var pattern=/^google$/;   //^从开头匹配，$从结尾开始匹配
+			// var str='google';
+			// console.log(pattern.test(str));
+
+			// var pattern=/goo\sgle/;   //\s可以匹配到空格,中文的空格和英文的空格都可以匹配到
+			// var str='google';
+			// console.log(pattern.test(str));
+			// 
+			// var pattern=/google\b/;   //\b 可以匹配是否到了边界
+			// var str='google';
+			// console.log(pattern.test(str));
+			// 使用或模式匹配
+			// var pattern=/google|baidu|bing/;   //匹配三种其中一或两或三种字符串，
+			// var str='baidu';
+			// console.log(pattern.test(str));
+			// 使用分组模式匹配
+			// var pattern=/(google){4,6}/;   //匹配分组里的字符串4-8次，连续的
+			// var str='googlegooglegooglegooglegoogle';
+			// console.log(pattern.test(str));
+			// 
+			var pattern=/8(.*)8/;   //获取8..8之间的任意字符
+			var str='This is 8google8 8wanghe8';
+			str.match(pattern);
+			console.log(RegExp.$1);
+			console.log(pattern.test(str));
+		</script>
+	</body>
+
+</html>

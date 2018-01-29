@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="MyModule">
+
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div ng-controller="MyCtrl">
+		<loader howToLoad="loadData()">滑动加载</loader>
+	</div>
+	<div ng-controller="MyCtrl2">
+		<loader howToLoad="loadData2()">滑动加载</loader>
+	</div>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script>
+		var myModule=angular.module('MyModule',[]);
+		myModule.controller('MyCtrl',function($scope){
+			$scope.loadData=function(){
+				console.log("加载数据中...");
+			}
+		});
+		myModule.controller('MyCtrl2',function($scope){
+			$scope.loadData2=function(){
+				console.log("加载数据中...22222");
+			}
+		});
+		//指令调用不同的控制器方法，很重要，指令就是为了可以实现复用
+		myModule.directive("loader",function($templateCache){
+			return {
+				restrict:'E',
+				link:function(scope,element,attrs){
+						element.bind("mouseenter",function(){//bind或者on方法都可以
+							// scope.loadData();//或者使用下面方式也可以调用loadData()
+							// 注意这里的坑，驼峰方式写的howToLoad会被转换成小写的howtoload
+							scope.$apply(attrs.howtoload);
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+
+	</html>

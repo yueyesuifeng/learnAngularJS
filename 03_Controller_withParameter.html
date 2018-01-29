@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div ng-app="myApp" ng-controller="myController">
+			<input ng-model="customSpice"></input>
+			<button ng-click="spicy('王鹤')">王鹤</button>
+			<button ng-click="spicy(customSpice)">自定义</button>
+			<p>{{spice}}真好看！</p>
+		</div>
+		<script type="text/javascript" src="angular-1.5.8/angular.min.js"></script>
+		<script type="text/javascript">
+			var app=angular.module('myApp',[]);
+			
+			app.controller('myController',['$scope',function($scope){
+				$scope.customSpice="大宝";
+				
+				$scope.spice="小宝";
+				
+				$scope.spicy=function(spice){
+					$scope.spice=spice;
+				};
+			}]);
+		</script>
+	</body>
+</html>

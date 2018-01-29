@@ -1,0 +1,87 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+
+</head>
+<body ng-controller="myController">
+	<input ng-model="search" type="text" ng-keyup="isChange()">
+	<table style="border:1px red solid;">
+		<tr ng-repeat="user in users | filterBy: ['id','user.first_name']: search as afterSearch">
+			<td ng-bind="user.id"></td>
+			<td ng-bind="user.user.first_name"></td>
+			<td ng-bind="user.user.last_name"></td>
+		</tr>
+	</table>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="angular-filter.min.js"></script> -->
+	<script>
+		var myApp = angular.module('myApp', []);
+		var isUndefined = angular.isUndefined,
+		isString = angular.isString,
+		isNumber = angular.isNumber,
+		isObject = angular.isObject,
+		isArray = angular.isArray;
+		function toArray(object) {
+			return isArray(object) 
+			? object 
+			: Object.keys(object).map(function(key) {
+				return object[key];
+			});
+		}
+		if (!String.prototype.contains) {
+			String.prototype.contains = function() {
+				return String.prototype.indexOf.apply(this, arguments) !== -1;
+			};
+		}
+		myApp.filter('filterBy', ['$parse', function( $parse ) {
+			return function(collection, properties, search, strict) {
+				var comparator;
+				search = (isString(search) || isNumber(search)) ?
+				String(search).toLowerCase() : undefined;
+				collection = isObject(collection) ? toArray(collection) : collection;
+				if(!isArray(collection) || isUndefined(search)) {
+					return collection;
+				}
+				return collection.filter(function(elm) {
+					return properties.some(function(prop) {
+
+          /**
+           * check if there is concatenate properties
+           * example:
+           * object: { first: 'foo', last:'bar' }
+           * filterBy: ['first + last'] => search by full name(i.e 'foo bar')
+           */
+           if(!~prop.indexOf('+')) {
+           	comparator = $parse(prop)(elm)
+           } else {
+           	var propList = prop.replace(/\s+/g, '').split('+');
+           	comparator = propList
+           	.map(function(prop) { return $parse(prop)(elm); })
+           	.join(' ');
+           }
+           if (!isString(comparator) && !isNumber(comparator)) {
+           	return false;
+           }
+           comparator = String(comparator).toLowerCase();
+           return strict ? comparator === search : comparator.contains(search);
+       });
+				});
+			}
+		}]);
+myApp.controller('myController',function($scope){
+	$scope.test="test";
+	$scope.users = [
+	{ id: 1, user: { first_name: 'R/ob', last_name: 'John',  mobile: 4444} },
+	{ id: 2, user: { first_name: 'John', last_name: 'Wayne',  mobile: 3333 } },
+	{ id: 3, user: { first_name: 'Rob', last_name: 'Johansson',  mobile: 2222 } },
+	{ id: 4, user: { first_name: 'Mike', last_name: 'Terry',  mobile: 1111 } }
+	];
+	$scope.afterSearch="";
+	$scope.isChange=function(){
+		console.log($scope.afterSearch);
+	}
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app>
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div ng-app="myApp">
+			
+		<script type="text/javascript" src="angular-1.5.8/angular.min.js"></script>
+		<script type="text/javascript" src="angular-1.5.8/angular-message.min.js"></script>
+		<script>
+			ar objs =[{a:1},{a:2}];
+angular.forEach(objs, function(data,index,array){
+//data等价于array[index]
+console.log(data.a+'='+array[index].a);
+});
+// 参数如下：
+// objs：需要遍历的集合
+// data:遍历时当前的数据
+// index:遍历时当前索引
+// array:需要遍历的集合，每次遍历时都会把objs原样的传一次。
+// 也可以不用写后面两个参数:
+// 代码如下
+// var objs =[{a:1},{a:2}];
+// angular.forEach(objs, function(data){
+// console.log(data.a);
+// });
+		</script>
+	</body>
+
+</html>

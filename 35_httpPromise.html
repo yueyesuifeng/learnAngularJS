@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<body ng-controller="MainCtrl">
+			<pre>{{a | json}}</pre>
+			<pre>{{b | json}}</pre>
+		</body>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var app = angular.module('plunker', []);
+			app.factory('json', function($q, $http) {
+				return function(files) {
+					var promises = [];
+					angular.forEach(files, function(file) {
+						var deffered = $q.defer();//defer（）创建一个Deferred表示将来会完成的任务的对象，返回一个新的deferred实例
+						$http({
+							url: file,
+							method: 'GET'
+						}).
+						success(function(data) {
+							deffered.resolve(data);
+							console.log("one");
+						}).
+						error(function(error) {
+							deffered.reject();
+						});
+						promises.push(deffered.promise);
+					})
+					return $q.all(promises);
+				}
+			});
+
+			app.controller('MainCtrl', function($scope, json) {
+				$scope.name = 'World';
+
+				json(['a.json', 'b.json']).then(function(datas) {
+					$scope.a = datas[0]
+					$scope.b = datas[1]
+				})
+
+			});
+		</script>
+
+</html>

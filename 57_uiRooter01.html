@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<script src="angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="js/57_helloworld.js"></script>
+	<style>
+		.active{/*状态被激活的样式*/
+			color: red;
+			font-weight: bold;
+		}		
+	</style>
+</head>
+	<body ng-app="helloworld">
+			<a ui-sref="hello" ui-serf-active="active">Hello</a>
+			<!--添加ui-serf链接。当被点击的时候，链接被激活，ui-serf是一个指令，行为类似href-->
+			<!--添加ui-sref-active到ui-sref链接。这个指令用来当状态被激活的时候，添加激活状态的、.active样式-->
+			<a ui-sref="about" ui-serf-active="active">About</a>
+			<ui-view><ui-view><!--添加标签ui-view标签视口到HTML中-->
+			<!--ui-view 标签ui-router的视口。当一个状态被激活的时候，状态的视图模板将被加载到视口中-->
+	</body>
+</html>

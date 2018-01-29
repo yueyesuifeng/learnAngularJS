@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div ng-controller="testCtrl">
+			{{testData}}
+		</div>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var app=angular.module('myApp', []);
+			app.controller('testCtrl',function($scope){
+				$scope.testData="test";
+			});
+		</script>
+	</body>
+
+</html>

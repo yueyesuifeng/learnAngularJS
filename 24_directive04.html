@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="MyModule">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+	<div ng-controller="MyCtrl">
+		<loader>滑动加载</loader>
+	</div>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var myModule=angular.module('MyModule',[]);
+			myModule.controller('MyCtrl',function($scope){
+				$scope.loadData=function(){
+					console.log("加载数据中...");
+				}
+			});
+			myModule.directive("loader",function($templateCache){
+				return {
+					restrict:'E',
+					link:function(scope,element,attr){
+						element.bind("mouseenter",function(){//bind或者on方法都可以
+							// scope.loadData();//或者使用下面方式也可以调用loadData()
+							scope.$apply("loadData()");
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+		<div ng-controller="testCtrl">
+			{{testData}}
+		</div>
+		<div style="width:200px;height:200px;background:yellow;margin:0 auto;">
+			<div style="width:1px;height:1px;background:green;margin:0 auto;"></div>
+		</div>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var app=angular.module('myApp', []);
+			app.controller('testCtrl',function($scope,$filter){
+				$scope.testData="test";
+				$scope.currLocalTime=Date.now();
+				$scope.result = $filter('date')($scope.currLocalTime, 'medium');
+				console.log($scope.result)
+			});
+		</script>
+	</body>
+
+</html>

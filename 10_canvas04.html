@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>获得鼠标的位置及在canvas上的位置</title>
+</head>
+<body>
+	<div onmousemove="draw(event)" id="testcanvas">  
+		<canvas id="myCanvas" width="200" height="100" style="border:1px solid #c3c3c3;" >  
+			Your browser does not support the canvas element.  
+		</canvas>  
+	</div>
+
+
+
+	<script type="text/javascript">  
+		function mousePos(e)  
+		{//获取鼠标所在位置的坐标，相对于整个页面  
+			var x,y;   
+			var e = e||window.event;//处理兼容性问题
+			return {   
+				x:e.clientX+document.body.scrollLeft + document.documentElement.scrollLeft,   
+				y:e.clientY+document.body.scrollTop + document.documentElement.scrollTop   
+			};   
+		}  
+
+
+
+function getCanvasPos(canvas,e)  
+	{//获取鼠标在canvas上的坐标  
+		// 用于获取某个元素相对于视窗的位置集合。集合中有top, right, bottom, left,width,height等属性
+		var rect = canvas.getBoundingClientRect();   
+		return {   
+			x: e.clientX - rect.left * (canvas.width / rect.width),  
+			y: e.clientY - rect.top * (canvas.height / rect.height)  
+		};  
+	}  
+
+
+function draw(e)  
+{  
+	var c=document.getElementById("myCanvas");  
+	var cxt=c.getContext("2d");  
+	cxt.clearRect(0,0,c.width,c.height);  
+	cxt.fillStyle="#FF0000";  
+	cxt.beginPath();  
+    //cxt.arc(mousePos(e).x,mousePos(e).y,15,0,Math.PI*2,true);  
+    cxt.arc(getCanvasPos(c,e).x,getCanvasPos(c,e).y,10,0,Math.PI*2,true);  
+    cxt.closePath();  
+    cxt.fill();  
+}  
+</script>
+</body>
+</html>

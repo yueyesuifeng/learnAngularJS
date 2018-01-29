@@ -1,0 +1,115 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+
+</head>
+<body ng-controller="myController">
+	<input ng-model="search" type="text" ng-keyup="isChange()">
+	<table style="border:1px red solid;">
+		<tr ng-repeat="user in users | filterBy: ['id','user.first_name']: search as afterSearch">
+			<td ng-bind="user.id"></td>
+			<td ng-bind="user.user.first_name"></td>
+			<td ng-bind="user.user.last_name"></td>
+		</tr>
+	</table>
+	<script src="angular-1.5.8/angular.min.js"></script>
+	<!-- <script src="angular-filter.min.js"></script> -->
+	<script>
+		var myApp = angular.module('myApp', []);
+		// var isUndefined = angular.isUndefined,
+		// isString = angular.isString,
+		// isNumber = angular.isNumber,
+		// isObject = angular.isObject,
+		// isArray = angular.isArray;
+		function toArray(object) {
+			return angular.isArray(object) 
+			? object 
+			: Object.keys(object).map(function(key) {
+				return object[key];
+			});
+		}
+
+		// var a={};
+		// a.b=1;
+		// a.c=2;
+		// a.d={};
+		// a.d.d1=3;
+		// a.d.d2=4;
+		// // console.log(a["b"]);
+		// //keys返回的是对象的属性名
+		// //map方法返回的是一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
+		// console.log(Object.keys(a).map(function(key) {//key就是keys返回的单个值b,c,d
+		// 		return a[key];
+		// 		// console.log(key);
+		// 	}));
+		// 返回的数组是[1,2,{d1:"3",d2:"4"}]
+		if (!String.prototype.contains) {
+			String.prototype.contains = function() {
+				return String.prototype.indexOf.apply(this, arguments) !== -1;
+			};
+		}
+		// indexOf方法返回某个指定的字符串值在字符串中首次出现的位置，如果要检索的字符串值没有出现，则该方法返回-1
+		// function().apply(object,[.....])的功能就是对象object调用这里的function()
+		// 过滤器可以传递多个参数，第一个参数是我们需要处理的数据，如这里的collection
+		// 过滤器中传递的参数和这里的function(collection,properties,search,strict)要按顺序对相应
+		// collection是我们过滤的对象，这个值也是要返回的
+		// properties是我们指定的过滤属性
+		// search是过滤的变量，可以是一个input绑定的ng-model变量
+		// strict是指定过滤的模式，true的时候是严格过滤,和输入框中的值必须相等且类型也要相等，false的时候只要包含就行
+		myApp.filter('filterBy', ['$parse', function( $parse ) {
+			return function(collection, properties, search, strict) {
+				var comparator;
+				//1. 先对搜索条件进行判断，搜素条件要是字符串或者数字才可以，判断后将其变成小写的；
+				search = (angular.isString(search) || angular.isNumber(search)) ?
+				String(search).toLowerCase() : undefined;
+				//2.对原数据判断，如果是对象，将其转换成数组，如果是其他类型对象，不做操作
+				collection = angular.isObject(collection) ? toArray(collection) : collection;
+				//3.接着判断，如果原数据既不是数组又不是undefined，则返回这个值，过滤结束，其实就是不过滤
+				if(!angular.isArray(collection) || angular.isUndefined(search)) {
+					return collection;
+				}
+				//4.判断之后继续过滤
+				//5.使用数组自带的filter方法
+				return collection.filter(function(elm) {
+					return properties.some(function(prop) {
+
+          /**
+           * check if there is concatenate properties
+           * example:
+           * object: { first: 'foo', last:'bar' }
+           * filterBy: ['first + last'] => search by full name(i.e 'foo bar')
+           */
+           if(!~prop.indexOf('+')) {//不包含+号字符时，为true
+           	comparator = $parse(prop)(elm)
+           } else {
+           	var propList = prop.replace(/\s+/g, '').split('+');
+           	comparator = propList
+           	.map(function(prop) { return $parse(prop)(elm); })
+           	.join(' ');
+           }
+           if (!angular.isString(comparator) && !angular.isNumber(comparator)) {
+           	return false;
+           }
+           comparator = String(comparator).toLowerCase();
+           return strict ? comparator === search : comparator.contains(search);
+       });
+				});
+			}
+		}]);
+myApp.controller('myController',function($scope){
+	$scope.test="test";
+	$scope.users = [
+	{ id: 1, user: { first_name: 'R/ob', last_name: 'John',  mobile: 4444} },
+	{ id: 2, user: { first_name: 'John', last_name: 'Wayne',  mobile: 3333 } },
+	{ id: 3, user: { first_name: 'Rob', last_name: 'Johansson',  mobile: 2222 } },
+	{ id: 4, user: { first_name: 'Mike', last_name: 'Terry',  mobile: 1111 } }
+	];
+	$scope.afterSearch="";
+	$scope.isChange=function(){
+		console.log($scope.afterSearch);
+	}
+});
+
+</script>
+</body>
+</html>

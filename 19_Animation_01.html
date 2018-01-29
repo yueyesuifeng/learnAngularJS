@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<style>
+div {
+  transition: all linear 0.3s;
+  background-color: lightblue;
+  height: 100px;
+}
+
+.ng-hide {
+  height: 0;
+}
+</style>
+<script src="../jquery-1.9.1.min.js"></script>
+<script src="./angular-1.5.8/angular.min.js"></script>
+<script src="./angular-1.5.8/angular-animate.js"></script>
+</head>
+<body ng-controller="testCtrl">
+
+
+<label for="">Admin</label><input type="radio"  name="selectedOperation" value="Admin" ng-model="selectedVal">
+<label for="">Site</label><input type="radio"  name="selectedOperation" value="Site" ng-model="selectedVal">{{selectedVal}}
+<div ng-hide="selectedVal!='Admin'"></div><!--这个地方selectedVal是个字符串，这样使用时错误的，selectedVal==Admin-->
+<script>
+var app = angular.module('myApp', ['ngAnimate']);
+app.controller('testCtrl',function($scope){
+$scope.selectedVal='';
+});
+</script>
+
+</body>
+</html>

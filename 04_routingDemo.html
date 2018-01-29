@@ -1,0 +1,32 @@
+<html>
+    <head>
+    	<meta charset="utf-8">
+        <title>AngularJS 路由实例 - 菜鸟教程</title>
+    </head>
+    <body ng-app='routingDemoApp'>
+     
+        <h2>AngularJS 路由应用</h2>
+        <ul>
+            <li><a href="#/">首页</a></li>
+            <li><a href="#/computers">电脑</a></li>
+            <li><a href="#/printers">打印机</a></li>
+            <li><a href="#/blabla">其他</a></li>
+        </ul>
+         
+        <div ng-view></div><!--使用ng-view指令，该div内的HTML内容会根据路由的变化而变化-->
+        <script type="text/javascript" src="angular-1.5.8/angular.min.js"></script>
+		<script type="text/javascript" src="angular-1.5.8/angular-route.min.js"></script><!--载入实现路由的js文件：angular-route.js-->
+        <script>
+            angular.module('routingDemoApp',['ngRoute'])//包含ngRoute模块作为主应用模块的依赖模块。
+            .config(['$routeProvider', function($routeProvider){//AngularJS $routeProvider用来定义规则
+                $routeProvider
+                .when('/',{template:'这是首页页面'})//when(path,object)第一个参数是URL或者URL正则规则，第二个参数是路由配置对象
+                .when('/computers',{template:'这是电脑分类页面'})
+                .when('/printers',{template:'这是打印机页面'})
+                .otherwise({redirectTo:'/'});
+            }]);
+        </script>
+     
+     
+    </body>
+</html>

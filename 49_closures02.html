@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<script type="text/javascript">
+function makeAdder(x) {//从本质上讲makeAdder是一个函数工厂————创建将指定的值和它的参数
+//求和的函数
+		return function(y) {
+			return x + y;
+		};
+	}
+
+	var add5 = makeAdder(5);//add5和add10都是闭包。他们共享相同的函数定义，但是保存了
+//不同的环境，在 add5 的环境中，x 为 5。而在 add10 中，x 则为 10。
+	var add10 = makeAdder(10);
+console.log(add5);//add5是一个函数
+console.log(add10);//add10是一个函数
+console.log(add5(2));  // 7
+console.log(add10(2)); // 12
+</script>
+<body>
+</body>
+</html>

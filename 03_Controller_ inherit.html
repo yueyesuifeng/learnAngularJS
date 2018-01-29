@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app="scopeInheritance">
+
+	<head>
+		<script src="http://code.angularjs.org/1.2.25/angular.min.js"></script>
+		<script src="script.js"></script>
+		<style>
+			div.spicy div {
+				padding: 10px;
+				border: solid 2px blue;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div ng-app="scopeInheritance" class="spicy">
+			<div ng-controller="MainCtrl">
+				<p>Good {{timeOfDay}}, {{name}}!</p>
+
+				<div ng-controller="ChildCtrl">
+					<p>Good {{timeOfDay}}, {{name}} !</p>
+
+					<div ng-controller="GrandChildCtrl">
+						<p>Good {{timeOfDay}}, {{name}}!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			var myApp = angular.module('scopeInheritance', []);
+			//Controller MainCtrl
+			myApp.controller('MainCtrl', ['$scope', function($scope) {
+				$scope.timeOfDay = 'morning';
+				$scope.name = 'Nikki';
+			}]);
+			//Controller ChildCtrl 继承MainCtrl scope的timeofDay
+			myApp.controller('ChildCtrl', ['$scope', function($scope) {
+				$scope.name = 'Mattie';
+			}]);
+			//Controller GrandChildCtrl 重写了MainCtrl scope中的timeofDay属性和childCtrl scope中的name属性
+			myApp.controller('GrandChildCtrl', ['$scope', function($scope) {
+				$scope.timeOfDay = 'evening';
+				$scope.name = 'Gingerbreak Baby';
+			}]);
+		</script>
+	</body>
+
+</html>

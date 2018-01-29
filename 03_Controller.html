@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+    <div ng-app="SpicyApp1" ng-controller="SpicyCtrl"><!--ngcontroller指令用来为我们的模板创建一个scope-->
+    	<button ng-click="wang()">王鹤</button>
+    	<button ng-click="wu()">仵玉芝</button>
+    	<p>{{spice}}真帅！</p>
+    </div>
+    <script type="text/javascript" src="angular-1.5.8/angular.min.js"></script>
+    <script type="text/javascript">
+    var myApp=angular.module('SpicyApp1',[]);
+
+    myApp.controller('SpicyCtrl',function($scope){
+    	$scope.spice="小宝";
+
+    	$scope.wang=function(){
+    		$scope.spice="王鹤";
+    	};
+
+    	$scope.wu=function(){
+    		$scope.spice="仵玉芝";
+    	};
+    });
+    </script>
+    </body>
+</html>

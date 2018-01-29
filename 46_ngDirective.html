@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+</head>
+<script src="angular-1.5.8/angular.min.js"></script>
+<body ng-app="myApp">
+	<hello-world></hello-world>
+	<script>
+//scope范围传递给指令。在这种情况下，它与父控制器范围相同
+//elem-在其上施加的指令的jQLite（jQuery的的一个子集）包裹元件。如果您在HTML包含AngularJS之前包括jQuery的，这成为jQuery的包裹，而不是jQLite。由于该元素已经与jQuery / jQLite包裹，没有必要再里面包裹它$()的DOM操作。
+//attrs - 表示附加到应用了该指令的元素的归一化属性的对象。例如，您可以在HTML中附加属性，如：<hello-world some-attribute></hello-world>并在link函数中访问它attrs.someAttribute
+//该link函数主要用于将事件侦听器附加到DOM元素，观察模型属性以进行更改，并更新DOM。在前面的指令片段中，我们连接两个监听器
+		var app = angular.module("myApp", []);
+		app.directive('helloWorld', function() {
+			return {
+				restrict: 'AE',
+				replace: true,
+				template: '<p style="background-color:{{color}}">Hello World',
+				link: function(scope, elem, attrs) {
+					console.log(elem)//这个elem是指令所在的dom元素集合，访问当前的是elem[0]
+					elem.bind('click', function() {
+						elem.css('background-color', 'green');
+						scope.$apply(function() {
+							scope.color = "white";
+						});
+						console.log("click");
+					});
+					elem.bind('mouseover', function() {
+						elem.css('cursor', 'pointer');
+						console.log("mouseOver")
+					});
+				}
+			};
+		});
+	</script>
+
+</body>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+</head>
+<script src="angular-1.5.8/angular.min.js"></script>
+<body ng-app="myApp">
+
+	<hello-world></hello-world>
+	<script>
+		var app = angular.module("myApp", []);
+		app.directive('helloWorld', function() {
+			return {
+				restrict: 'AE',
+				replace: 'true',
+				template: '<h3>Hello World!!</h3>'
+			};
+		});
+	</script>
+
+</body>
+</body>
+
+</html>

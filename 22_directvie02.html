@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="MyModule">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+
+	<body>
+			<hello>
+				<div>这里是指令内部的内容。</div>
+			</hello>
+		<script src="angular-1.5.8/angular.min.js"></script>
+		<script>
+			var myModule=angular.module('MyModule',[]);
+			//注射器加载完成所有模块时，此方法执行一次
+			myModule.run(function($templateCache){
+				$templateCache.put("hello.html","<div>Hello everyone!!!!!</div>");
+			});
+			myModule.directive("hello",function($templateCache){
+				return {
+					restrict:'E',
+					template:$templateCache.get("hello.html"),
+					replace:true//true时，内部写的内容会被替换掉，要保留内部的内容的话，replace是
+					//没有办法实现的，要靠transclude实现
+				}
+			});
+		</script>
+	</body>
+
+</html>
