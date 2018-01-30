@@ -12,7 +12,7 @@
 		<table class="table table-hover" ng-cloak="">
 			<thead>
 				<tr>
-					<th ng-click="sortBy('name')">Policy Name
+					<th>Policy Name<!--这里不加ng-click的话，有问题   自己添加的click事件没有进行dom的渲染-->
 						<tablesorticon tablepropertyname="propertyName" reverse="reverse" colname="{{'name'}}"></tablesorticon>
 					</th>
 					<th ng-click="sortBy('desc')">Description
@@ -38,16 +38,18 @@
 		myModule.controller('templateCtrl', ['$scope',function($scope) {
 			$scope.propertyName = 'updateTime';
 			$scope.reverse = true;
-			$scope.sortBy = function(propertyName) {
-				$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
-				$scope.propertyName = propertyName;
-			};
+
+			// $scope.sortBy = function(propertyName) {
+			// 	$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+			// 	$scope.propertyName = propertyName;
+			// };
 			$scope.networkPolices = [
 			{ "id": "1", "policyType": { "wireless": true, "lan": true }, "name": "wang_test", "ssid_num": 1, "template_num": 2, "desc": "good a", "updateTime": "2018-1-1" },
 			{ "id": "2", "policyType": { "wireless": true, "lan": true }, "name": "cisco", "ssid_num": 2, "template_num": 3, "desc": "good b", "updateTime": "2018-1-2" },
 			{ "id": "3", "policyType": { "wireless": true, "lan": true }, "name": "apple", "ssid_num": 4, "template_num": 2, "desc": "good c", "updateTime": "2018-1-3" },
 			{ "id": "4", "policyType": { "wireless": true, "lan": true }, "name": "donghua", "ssid_num": 5, "template_num": 3, "desc": "good d", "updateTime": "2018-1-4" }
 			];
+			$scope.testCont="test";
 		}]);
 		myModule.directive('tablesorticon', function() {
 			return {
@@ -61,16 +63,20 @@
 				+"<span class='glyphicon glyphicon-sort-by-attributes' ng-if='!reverse&&tablepropertyname==colname'></span>"
 				+"<span class='glyphicon glyphicon-sort-by-attributes-alt' ng-if='reverse&&tablepropertyname==colname'></span>",
 				controller:function($scope){
+					console.log("1");
 					this.sortBy = function(colname) {
-						$scope.reverse = ($scope.propertyName === colname) ? !$scope.reverse : false;
-				        $scope.propertyName = colname;
+						console.log("2");
+						$scope.reverse = ($scope.tablepropertyname === colname) ? !$scope.reverse : false;
+				        $scope.tablepropertyname = colname;
 					};
 				},
 				controllerAs:"tableSortCtrl",//给上面的控制器起别名
 				link:function(scope,ele,atrrs,tableSortCtrl){
-					console.log(ele.parents("th")[0]);//有几条指令就执行几次
-					ele.parents("th").on('click', function() {//给父级th元素都加上一个click的函数
-						tableSortCtrl.sortBy(scope.colname)
+					console.log("3");
+					console.log(ele.parent("th")[0]);//有几条指令就执行几次
+					ele.parent("th").on('click', function() {//给父级th元素都加上一个click的函数
+						tableSortCtrl.sortBy(scope.colname);
+						console.log("4");
 					});
 				}
 			}
